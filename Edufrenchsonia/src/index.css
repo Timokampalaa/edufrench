@@ -1,0 +1,857 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Poppins:wght@500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --app-bg: #F8FAFC;
+  --sidebar-bg: #1E293B;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --text-heading: #020617;
+  --accent: #2563EB; /* French Blue */
+  --accent-light: #EFF6FF;
+  --accent-hover: #1D4ED8;
+  --border: rgba(148, 163, 184, 0.3);
+  --shadow: 0px 10px 24px rgba(37, 99, 235, 0.08);
+  --shadow-card: 0px 16px 36px rgba(37, 99, 235, 0.06),
+                 inset 0px -4px 10px rgba(37, 99, 235, 0.03),
+                 inset 0px 4px 10px rgba(255, 255, 255, 0.9);
+  --shadow-inset: inset 2px 3px 6px rgba(37, 99, 235, 0.08),
+                  inset -2px -2px 6px rgba(255, 255, 255, 0.8);
+  --glass-backdrop: blur(18px) saturate(1.6);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shine: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  /* Stat card semantic colors for light mode */
+  --stat-label: #475569;
+  --stat-value: #0F172A;
+  --stat-sub: #E11D48; /* French Red */
+
+  /* Table colors */
+  --table-head-bg: #F5F2FC;
+  --table-hover-bg: #FBF9FF;
+
+  /* Input colors */
+  --input-bg: rgba(255, 255, 255, 0.6);
+
+  /* Recently played item bg */
+  --item-bg: #FAF8FF;
+  --item-border: #EDE9FE;
+
+  /* Chart text color */
+  --chart-text: #5C5480;
+  --chart-grid: #F4F1EA;
+}
+
+:root[data-theme="dark"] {
+  --app-bg: #0F172A;
+  --sidebar-bg: #020617;
+  --card-bg: rgba(30, 41, 59, 0.70);
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #64748B;
+  --text-heading: #FFFFFF;
+  --accent: #3B82F6;
+  --accent-light: #1E3A8A;
+  --accent-hover: #60A5FA;
+  --border: rgba(255, 255, 255, 0.10);
+  --shadow: 0px 10px 24px rgba(0, 0, 0, 0.40);
+  --shadow-card: 0px 16px 36px rgba(0, 0, 0, 0.40),
+                 inset 0px -4px 10px rgba(0, 0, 0, 0.20),
+                 inset 0px 4px 10px rgba(255, 255, 255, 0.05);
+  --shadow-inset: inset 2px 3px 6px rgba(0, 0, 0, 0.40),
+                  inset -2px -2px 6px rgba(255, 255, 255, 0.03);
+  --glass-backdrop: blur(20px) saturate(1.4);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-shine: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* Stat card semantic colors for dark mode */
+  --stat-label: #CBD5E1;
+  --stat-value: #FFFFFF;
+  --stat-sub: #FB7185;
+
+  /* Table colors */
+  --table-head-bg: rgba(38, 35, 56, 0.6);
+  --table-hover-bg: rgba(60, 56, 82, 0.4);
+
+  /* Input colors */
+  --input-bg: rgba(0, 0, 0, 0.25);
+
+  /* Recently played item bg */
+  --item-bg: rgba(40, 37, 60, 0.5);
+  --item-border: rgba(120, 110, 180, 0.2);
+
+  /* Chart text color */
+  --chart-text: #C4BFD9;
+  --chart-grid: rgba(255, 255, 255, 0.06);
+}
+
+/* ── Base Typography ── */
+body {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--app-bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--text-heading);
+  font-weight: 700;
+}
+
+/* ── Sidebar ── */
+.app-sidebar {
+  background-color: var(--sidebar-bg);
+  border: none;
+}
+
+/* ── Glass Effect ── */
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  box-shadow: var(--shadow-card), var(--glass-shine);
+}
+
+/* Apply glass to key components */
+.app-card,
+.welcome-banner,
+.premium-card,
+.grade-card,
+.surface-primary,
+.surface-secondary {
+  background: var(--card-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card), var(--glass-shine);
+  border-radius: 28px;
+}
+
+.app-card,
+.welcome-banner,
+.premium-card,
+.grade-card {
+  color: var(--text-primary);
+}
+
+/* ── Header ── */
+.app-header {
+  background-color: transparent;
+  border-bottom: none;
+}
+
+/* ── Navigation Items ── */
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  color: rgba(255, 255, 255, 0.85);
+  transition: all 0.2s ease;
+  gap: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 4px 16px;
+}
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+.nav-item.active {
+  background: #ffffff !important;
+  color: #2563EB !important;
+  box-shadow: 0px 8px 16px rgba(37, 99, 235, 0.15),
+              inset 0px -3px 6px rgba(37, 99, 235, 0.06),
+              inset 0px 3px 6px rgba(255, 255, 255, 0.8) !important;
+}
+.nav-item.active svg {
+  color: #2563EB !important;
+  stroke: #2563EB !important;
+}
+
+/* ── Stat Cards ── */
+.stat-card-custom {
+  background: var(--card-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow-card), var(--glass-shine);
+  transition: transform 0.2s ease;
+}
+@media (min-width: 640px) {
+  .stat-card-custom {
+    padding: 24px;
+    border-radius: 24px;
+  }
+}
+.stat-card-custom:hover {
+  transform: translateY(-2px);
+}
+/* Override stat card text for dark mode adaptability */
+.stat-card-custom p {
+  color: var(--stat-label) !important;
+}
+.stat-card-custom h3,
+.stat-card-custom span[class*="font-bold"] {
+  color: var(--stat-value) !important;
+}
+
+/* ── Primary Button ── */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0px 8px 16px rgba(37, 99, 235, 0.25),
+              inset 0px -4px 6px rgba(37, 99, 235, 0.2),
+              inset 0px 4px 6px rgba(255, 255, 255, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0px 10px 20px rgba(37, 99, 235, 0.35),
+              inset 0px -4px 6px rgba(37, 99, 235, 0.2),
+              inset 0px 4px 6px rgba(255, 255, 255, 0.4);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ── Form Inputs ── */
+.form-input {
+  background: var(--input-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 12px 18px;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+.form-input:focus {
+  background: var(--card-bg);
+  border-color: var(--accent);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02),
+              0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+/* ── Search Bar ── */
+.search-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.search-input {
+  background: var(--input-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 10px 18px 10px 46px;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  width: 260px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+.search-input:focus {
+  width: 300px;
+  background: var(--card-bg);
+  border-color: var(--accent);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02),
+              0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+.search-icon {
+  position: absolute;
+  left: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* ── Welcome Banner ── */
+.welcome-banner {
+  background: var(--accent);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 16px 36px rgba(30, 58, 138, 0.15),
+              inset 0px -4px 10px rgba(30, 58, 138, 0.1),
+              inset 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
+@media (min-width: 640px) {
+  .welcome-banner {
+    padding: 32px 36px;
+    border-radius: 28px;
+  }
+}
+.welcome-banner h1,
+.welcome-banner h2,
+.welcome-banner p {
+  color: #ffffff !important;
+}
+
+/* ── Premium Card ── */
+.premium-card {
+  background: #FFC9C0;
+  border-radius: 24px;
+  padding: 20px;
+  margin: 16px;
+  position: relative;
+  overflow: visible;
+  box-shadow: 0px 10px 24px rgba(255, 174, 164, 0.2),
+              inset 0px -3px 6px rgba(0, 0, 0, 0.06),
+              inset 0px 3px 6px rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ── Clay Buttons ── */
+.clay-btn-pink {
+  background: linear-gradient(135deg, #FF7696 0%, #FF5A83 100%);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0px 6px 12px rgba(255, 90, 131, 0.3),
+              inset 0px -3px 5px rgba(255, 90, 131, 0.2),
+              inset 0px 3px 5px rgba(255, 255, 255, 0.4);
+  transition: all 0.2s ease;
+}
+.clay-btn-pink:hover {
+  transform: translateY(-1px);
+  box-shadow: 0px 8px 16px rgba(255, 90, 131, 0.4),
+              inset 0px -3px 5px rgba(255, 90, 131, 0.2),
+              inset 0px 3px 5px rgba(255, 255, 255, 0.4);
+}
+
+.clay-btn-dark {
+  background: linear-gradient(135deg, #5C4EC4 0%, #463AA3 100%);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 22px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0px 6px 12px rgba(70, 58, 163, 0.3),
+              inset 0px -3px 5px rgba(70, 58, 163, 0.2),
+              inset 0px 3px 5px rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.clay-btn-dark:hover {
+  transform: translateY(-1px);
+  box-shadow: 0px 8px 16px rgba(70, 58, 163, 0.4);
+}
+
+/* ── Secondary Button ── */
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 10px 22px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-secondary:hover {
+  background: var(--card-bg);
+  transform: translateY(-1px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
+  border-color: var(--border);
+}
+
+/* ── Surface classes ── */
+.surface-primary {
+  background-color: var(--card-bg);
+}
+.surface-secondary {
+  background-color: var(--app-bg);
+}
+
+/* ── Editor Toolbar ── */
+.editor-toolbar {
+  background: var(--app-bg);
+  border-bottom: 1px solid var(--border);
+}
+.editor-toolbar button,
+.editor-toolbar select {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+.editor-toolbar button:hover,
+.editor-toolbar select:hover {
+  background: var(--accent-light);
+  color: var(--text-primary);
+}
+
+/* Dark mode editor toolbar button overrides */
+:root[data-theme="dark"] .editor-toolbar button {
+  color: var(--text-secondary);
+}
+:root[data-theme="dark"] .editor-toolbar button:hover {
+  background: var(--accent-light);
+  color: var(--text-primary);
+}
+
+/* ── Theme Toggle ── */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-card);
+}
+.theme-toggle:hover {
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* ── Delete Button ── */
+.btn-delete {
+  padding: 8px;
+  color: #ef4444;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  background: transparent;
+  cursor: pointer;
+}
+.btn-delete:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+:root[data-theme="dark"] .btn-delete:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* ── Grade Card ── */
+.grade-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 12px 16px;
+  box-shadow: var(--shadow-inset);
+}
+
+/* ── Badges ── */
+.badge-done {
+  background: #E2FBF0;
+  color: #059669;
+  border-radius: 9999px;
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-block;
+  box-shadow: inset 0px -2px 4px rgba(5, 150, 105, 0.1),
+              inset 0px 2px 4px rgba(255, 255, 255, 0.6);
+}
+.badge-pending {
+  background: #FEE2E2;
+  color: #DC2626;
+  border-radius: 9999px;
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-block;
+  box-shadow: inset 0px -2px 4px rgba(220, 38, 38, 0.1),
+              inset 0px 2px 4px rgba(255, 255, 255, 0.6);
+}
+.badge-purple {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border-radius: 9999px;
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-block;
+  box-shadow: inset 0px -2px 4px rgba(37, 99, 235, 0.1),
+              inset 0px 2px 4px rgba(255, 255, 255, 0.6);
+}
+.badge-blue {
+  background: #E0F2FE;
+  color: #0284C7;
+  border-radius: 9999px;
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-block;
+  box-shadow: inset 0px -2px 4px rgba(2, 132, 199, 0.1),
+              inset 0px 2px 4px rgba(255, 255, 255, 0.6);
+}
+
+/* Dark mode badge overrides */
+:root[data-theme="dark"] .badge-done {
+  background: rgba(5, 150, 105, 0.18);
+  color: #6EE7B7;
+  box-shadow: none;
+}
+:root[data-theme="dark"] .badge-pending {
+  background: rgba(220, 38, 38, 0.18);
+  color: #FCA5A5;
+  box-shadow: none;
+}
+:root[data-theme="dark"] .badge-purple {
+  background: rgba(37, 99, 235, 0.18);
+  color: #93C5FD;
+  box-shadow: none;
+}
+:root[data-theme="dark"] .badge-blue {
+  background: rgba(2, 132, 199, 0.18);
+  color: #7DD3FC;
+  box-shadow: none;
+}
+
+/* ── Reminder Items ── */
+.reminder-item {
+  background: var(--card-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border-radius: 18px;
+  padding: 14px 18px;
+  border-left: 5px solid var(--accent);
+  font-size: 0.85rem;
+  box-shadow: var(--shadow-card), var(--glass-shine);
+}
+
+/* ── Tables ── */
+.data-table thead tr {
+  background: var(--table-head-bg);
+}
+.data-table tbody tr:hover {
+  background: var(--table-hover-bg);
+}
+.data-table th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 16px 20px;
+  border-bottom: 2px solid var(--border);
+}
+.data-table td {
+  padding: 16px 20px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Scrollbars ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #94A3B8; border-radius: 10px; }
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #475569; }
+
+/* ── Animations ── */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: fadeSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* ── Brand Logo ── */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 20px 20px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #ffffff;
+  text-decoration: none;
+}
+.brand-logo-icon {
+  width: 38px;
+  height: 38px;
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563EB;
+  flex-shrink: 0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.06),
+              inset 0px -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* ── Dark mode: Global text color overrides for hardcoded Tailwind colors ── */
+/* This ensures any text-[#3B3561] or similar dark-only-visible colors become readable */
+:root[data-theme="dark"] [class*="text-[#3B3561]"],
+:root[data-theme="dark"] [class*="text-purple-950"],
+:root[data-theme="dark"] [class*="text-purple-900"],
+:root[data-theme="dark"] [class*="text-pink-950"],
+:root[data-theme="dark"] [class*="text-pink-900"],
+:root[data-theme="dark"] [class*="text-amber-950"],
+:root[data-theme="dark"] [class*="text-amber-900"],
+:root[data-theme="dark"] [class*="text-sky-950"],
+:root[data-theme="dark"] [class*="text-sky-900"],
+:root[data-theme="dark"] [class*="text-blue-950"],
+:root[data-theme="dark"] [class*="text-blue-800"],
+:root[data-theme="dark"] [class*="text-purple-800"],
+:root[data-theme="dark"] [class*="text-emerald-800"],
+:root[data-theme="dark"] [class*="text-emerald-950"],
+:root[data-theme="dark"] [class*="text-amber-800"],
+:root[data-theme="dark"] [class*="text-indigo-600"] {
+  color: var(--text-heading) !important;
+}
+
+:root[data-theme="dark"] [class*="text-slate-400"],
+:root[data-theme="dark"] [class*="text-[#7A729E]"],
+:root[data-theme="dark"] [class*="text-[#B2AACA]"] {
+  color: var(--text-secondary) !important;
+}
+
+/* Dark mode stat card icon containers */
+:root[data-theme="dark"] .stat-card-custom [class*="bg-purple-100"],
+:root[data-theme="dark"] .stat-card-custom [class*="bg-pink-100"],
+:root[data-theme="dark"] .stat-card-custom [class*="bg-amber-100"],
+:root[data-theme="dark"] .stat-card-custom [class*="bg-sky-100"] {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Dark mode stat card background overrides */
+:root[data-theme="dark"] .stat-card-custom[class*="bg-[#F5F3FF]"],
+:root[data-theme="dark"] .stat-card-custom[class*="bg-[#EFF6FF]"],
+:root[data-theme="dark"] .stat-card-custom[class*="bg-[#ECFDF5]"],
+:root[data-theme="dark"] .stat-card-custom[class*="bg-[#FFFBEB]"] {
+  background: var(--card-bg) !important;
+}
+
+/* Dark mode: Recently played items & similar light-bg containers */
+:root[data-theme="dark"] [class*="bg-[#FAF8FF]"],
+:root[data-theme="dark"] [class*="bg-[#FAF7F2]"] {
+  background: var(--item-bg) !important;
+}
+:root[data-theme="dark"] [class*="border-[#EDE9FE]"],
+:root[data-theme="dark"] [class*="border-[#E6E3FA]"] {
+  border-color: var(--item-border) !important;
+}
+
+/* Dark mode: Calendar nav buttons and misc white bg items */
+:root[data-theme="dark"] .app-card [class*="bg-white"] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Dark mode: Icon containers in results, settings, etc. */
+:root[data-theme="dark"] [class*="bg-indigo-50"],
+:root[data-theme="dark"] [class*="bg-emerald-50"],
+:root[data-theme="dark"] [class*="bg-amber-100"],
+:root[data-theme="dark"] [class*="bg-sky-100"],
+:root[data-theme="dark"] [class*="bg-neutral-100"] {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Dark mode: Grade feedback boxes */
+:root[data-theme="dark"] [class*="bg-emerald-50/50"],
+:root[data-theme="dark"] [class*="bg-emerald-50/30"] {
+  background: rgba(16, 185, 129, 0.1) !important;
+}
+:root[data-theme="dark"] [class*="text-emerald-800"],
+:root[data-theme="dark"] [class*="text-emerald-700"] {
+  color: #6EE7B7 !important;
+}
+
+/* Dark mode: Settings photo border */
+:root[data-theme="dark"] [class*="border-indigo-50"],
+:root[data-theme="dark"] [class*="border-indigo-100"],
+:root[data-theme="dark"] [class*="border-emerald-100"] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Dark mode: Neutral bg items in file preview / editor */
+:root[data-theme="dark"] [class*="bg-neutral-50"],
+:root[data-theme="dark"] [class*="bg-neutral-50/50"] {
+  background: var(--app-bg) !important;
+}
+
+/* Dark mode: text-neutral fixes */
+:root[data-theme="dark"] [class*="text-neutral-700"] {
+  color: var(--text-primary) !important;
+}
+:root[data-theme="dark"] [class*="text-neutral-500"] {
+  color: var(--text-secondary) !important;
+}
+:root[data-theme="dark"] [class*="text-neutral-400"] {
+  color: var(--text-muted) !important;
+}
+
+/* Dark mode: bg-neutral-200 dividers */
+:root[data-theme="dark"] [class*="bg-neutral-200"] {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Dark mode: hover states */
+:root[data-theme="dark"] [class*="hover:bg-neutral-200"]:hover {
+  background: var(--accent-light) !important;
+}
+:root[data-theme="dark"] [class*="hover:bg-neutral-50"]:hover {
+  background: var(--accent-light) !important;
+}
+
+/* Dark mode: dropdown & popup menus */
+:root[data-theme="dark"] .app-card [class*="bg-white"][class*="border"][class*="shadow"] {
+  background: var(--card-bg) !important;
+  border-color: var(--border) !important;
+}
+
+/* Dark mode: Login form specific */
+:root[data-theme="dark"] [class*="text-[#3B3561]"] {
+  color: var(--text-heading) !important;
+}
+:root[data-theme="dark"] [class*="text-[#7A729E]"] {
+  color: var(--text-secondary) !important;
+}
+
+/* Dark mode: Chart tooltip background */
+:root[data-theme="dark"] .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: var(--card-bg) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Dark mode: Bell notification button */
+:root[data-theme="dark"] button[style*="background: rgb(224, 242, 254)"],
+:root[data-theme="dark"] button[style*="background: #E0F2FE"] {
+  background: rgba(2, 132, 199, 0.15) !important;
+}
+:root[data-theme="dark"] span[class*="border-[#FAF7F5]"] {
+  border-color: var(--app-bg) !important;
+}
+
+/* Dark mode: "See All" links and accent text */
+:root[data-theme="dark"] [class*="text-[#8E82F7]"] {
+  color: var(--accent) !important;
+}
+
+/* Dark mode: error/alert boxes */
+:root[data-theme="dark"] [style*="background: rgb(254, 226, 226)"],
+:root[data-theme="dark"] [style*="background: #fee2e2"] {
+  background: rgba(220, 38, 38, 0.15) !important;
+  border-color: rgba(220, 38, 38, 0.3) !important;
+}
+:root[data-theme="dark"] [style*="color: rgb(220, 38, 38)"],
+:root[data-theme="dark"] [style*="color: #dc2626"] {
+  color: #FCA5A5 !important;
+}
+
+/* Dark mode: success alert boxes */
+:root[data-theme="dark"] [style*="background: rgb(209, 250, 229)"],
+:root[data-theme="dark"] [style*="background: #d1fae5"] {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+:root[data-theme="dark"] [style*="color: rgb(6, 95, 70)"],
+:root[data-theme="dark"] [style*="color: #065f46"] {
+  color: #6EE7B7 !important;
+}
+
+/* Container limits for ultrawide */
+.content-wrapper {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+:root[data-theme="dark"] [style*="color: #065f46"] {
+  color: #6EE7B7 !important;
+}
+
+/* Dark mode: admin status card with green bg */
+:root[data-theme="dark"] .premium-card[style*="background: rgb(226, 251, 240)"],
+:root[data-theme="dark"] .premium-card[style*="background: #E2FBF0"] {
+  background: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(16, 185, 129, 0.2) !important;
+}
+:root[data-theme="dark"] [class*="text-[#065F46]"] {
+  color: #6EE7B7 !important;
+}
+
+/* Dark mode: purple-200 avatar bg */
+:root[data-theme="dark"] [class*="bg-purple-200"] {
+  background: rgba(37, 99, 235, 0.2) !important;
+}
+:root[data-theme="dark"] [class*="border-purple-300"] {
+  border-color: rgba(37, 99, 235, 0.3) !important;
+}
+:root[data-theme="dark"] [class*="text-purple-700"] {
+  color: #93C5FD !important;
+}
+
+/* Dark mode: select dropdown */
+:root[data-theme="dark"] select {
+  color: var(--text-primary);
+  background: var(--input-bg);
+}
+:root[data-theme="dark"] select option {
+  background: var(--app-bg);
+  color: var(--text-primary);
+}
